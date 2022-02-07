@@ -1,0 +1,119 @@
+const audioPlayer = document.querySelector('.audio-player');
+const playButton = document.querySelector('.play');
+const prevButton = document.querySelector('.prev');
+const nextButton = document.querySelector('.next');
+const audio = document.querySelector('.audio');
+const progressContainer = document.querySelector('.progress-container');
+const progressLine = document.querySelector('.progress-line');
+const currentDesc = document.querySelector('.current-desc');
+const currentCoverImg = document.querySelector('.cover-img');
+const currentSong = document.querySelector('.current-song');
+const currentPerformer = document.querySelector('.current-performer');
+const buttonSwitcher = document.querySelector('.button-play-img');
+const overlayImage = document.querySelector('.overlay-img');
+const currentTimeSong = document.querySelector('.current-time');
+const durationSong = document.querySelector('.duration');
+
+const songs = ['Don\'t Hurt Yourself', 'Don\'t start now', 'The Brightside', 'After Dark'];// songs names
+const performers = ['Beyonce', 'Dua Lipa', 'Lil Peep', 'Mr. Kitty'];
+let songDef = 0; //default song
+
+function prepareSong (song) {
+    currentSong.innerHTML = song;
+    currentPerformer.innerHTML = performers[songDef];
+    audio.src = `./assets/audio/${song}.mp3`;
+    currentCoverImg.src = `./assets/img/cover${songDef + 1}.png`;
+    overlayImage.src = `./assets/img/cover${songDef + 1}.png`;
+}
+prepareSong(songs[songDef]);
+
+function playSong () {
+    audioPlayer.classList.add('play');
+    currentCoverImg.classList.add('active');
+    buttonSwitcher.src = `./assets/img/pause.png`;
+    audio.play ();
+}
+
+function pauseSong () {
+    audioPlayer.classList.remove('play');
+    currentCoverImg.classList.remove('active');
+    buttonSwitcher.src = `./assets/img/play.png`;
+    audio.pause ();
+}
+
+playButton.addEventListener ('click', () => {
+    const isSongPlay = audioPlayer.classList.contains('play');
+    if (isSongPlay) {
+        pauseSong ();
+    } else {
+        playSong ();
+    }
+});
+
+function nextSong () {
+    songDef++;
+    if (songDef > songs.length - 1) {
+        songDef = 0;
+    }
+    prepareSong(songs[songDef]);
+    playSong ();
+}
+nextButton.addEventListener ('click', nextSong);
+
+function prevSong () {
+    songDef--;
+    if (songDef < 0) {
+        songDef = songs.length - 1;
+    }
+    prepareSong(songs[songDef]);
+    playSong ();
+}
+prevButton.addEventListener ('click', prevSong);
+
+function statusBar (e) {
+    const {duration, currentTime} = e.srcElement;
+    const statusPercent = (currentTime / duration) * 100;
+    progressLine.style.width = `${statusPercent}%`;
+}
+
+audio.addEventListener('timeupdate', statusBar);
+
+function rewindSong (e) {
+    const lineWidt = this.clientWidth;
+    const clickPlaceX = e.offsetX;
+    const songDuration = audio.duration;
+
+    audio.currentTime = (clickPlaceX / lineWidt) * songDuration;
+}
+progressContainer.addEventListener('click', rewindSong);
+
+function getTimeFormat () {
+    let secondsQ = parseInt(timeNum, 10);
+    let hours = Math.floor(secondsQ / 3600);
+    let minutes = Math.floor((secondsQ - (hours * 3600)) / 60);
+    let seconds = secondsQ - (hours * 3600) - (minutes * 60);
+    if (hours < 10) {
+        hours = '0' + hours;
+    }
+    if (minutes < 10) {
+        minutes = '0' + minutes;
+    }
+    if (seconds < 10) {
+        seconds = '0' + seconds;
+    }
+    if (hours == 0) {
+        return minutes + ':' + seconds;
+    } else {
+        return hours + ':' + minutes+ ':' + seconds;
+    }
+}
+audio.addEventListener('timeupdate', function() {
+    const currentTimeplay = getTimeFormat(audio.currentTimeSong);
+    const currentDurationPlay = getTimeFormat(audio.durationSong);
+
+    currentTimeSong.innerHTML = currentTimeplay;
+    durationSong.innerHTML = currentDurationPlay;
+
+})
+
+audio.addEventListener('ended', nextSong);
