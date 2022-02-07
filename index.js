@@ -108,12 +108,12 @@ function getTimeFormat () {
     }
 }
 audio.addEventListener('timeupdate', function() {
-    const currentTimeplay = getTimeFormat(audio.currentTimeSong);
-    const currentDurationPlay = getTimeFormat(audio.durationSong);
+    let currentTimeplay = getTimeFormat(audio.currentTimeSong);
+    let currentDurationPlay = getTimeFormat(audio.durationSong);
 
     currentTimeSong.innerHTML = currentTimeplay;
     durationSong.innerHTML = currentDurationPlay;
 
-})
+});
 
 audio.addEventListener('ended', nextSong);
