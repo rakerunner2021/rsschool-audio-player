@@ -23,6 +23,9 @@ html {
     box-sizing: inherit;
 }
 body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
     min-height: 100vh;
     margin: 0;
     padding: 0;
@@ -35,12 +38,11 @@ body {
     
 }
 .wrapper {
-    height: 100vh;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    
+    padding-top: 100px;
 }
 .audio-player {
     position: relative;
@@ -67,11 +69,7 @@ body {
     background-size: 160% auto;
     
 }
-/*div.overlay-image.the-nights.active {
-	animation: fadeIn 0.8s;
-	background: url('https://upload.wikimedia.org/wikipedia/en/6/64/The-Days-Nights-EP-by-Avicii.jpg') no-repeat 45% 20%;
-	background-size: 200% auto;
-}*/
+
 .current-desc {
     text-align: center;
     font-size: 20px;
@@ -107,12 +105,21 @@ body {
     background-color: #000000;
     margin-top: 5px;
     cursor: pointer;
+    
 }
 .progress-line {
     border-radius: 5px;
     height: 6px;
-    
     background-color: #ffffff;
+}
+.time {
+    display: flex;
+}
+.current-time {
+    color: #fecb00;
+}
+.duration {
+    color: #fecb00;
 }
 .player-buttons {
     display: flex;
@@ -145,4 +152,63 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+.footer-gh {
+    width: 282px;
+}
+.footer-gh-list {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+    margin: 0;
+}
+.footer-gh-item {
+    margin-right: 20px;
+    list-style: none;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 50px;
+    color: #000;
+}
+.footer-gh-item:last-child {
+    margin-right: 13px;
+}
+.footer-gh-link,
+.footer-rs-link {
+    text-decoration: none;
+    color: #000;
+}
+.footer-gh-link:hover,
+.footer-gh-link:focus,
+.footer-rs-link:hover,
+.footer-rs-link:focus {
+    color: #fecb00;
+    transition: .3s;
+}
+
+.footer-rs-link {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 50px;
+    color: #000;
+}
+
+.footer-rs-disc {
+    margin: 0;
+}
+.footer-year {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 50px;
+    color: #000;
 }

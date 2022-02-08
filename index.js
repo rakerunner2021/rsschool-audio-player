@@ -14,6 +14,7 @@ const overlayImage = document.querySelector('.overlay-img');
 const currentTimeSong = document.querySelector('.current-time');
 const durationSong = document.querySelector('.duration');
 
+
 const songs = ['Don\'t Hurt Yourself', 'Don\'t start now', 'The Brightside', 'After Dark'];// songs names
 const performers = ['Beyonce', 'Dua Lipa', 'Lil Peep', 'Mr. Kitty'];
 let songDef = 0; //default song
@@ -74,7 +75,20 @@ function statusBar (e) {
     const {duration, currentTime} = e.srcElement;
     const statusPercent = (currentTime / duration) * 100;
     progressLine.style.width = `${statusPercent}%`;
+    const songDur = parseInt(duration);
+    const mins = parseInt(duration / 60);
+    const secs = parseInt(duration % 60);
+    durationSong.innerHTML = mins + ":" + secs;
+    const songCurrTime = parseInt(currentTime);
+    let minsCur = parseInt(currentTime / 60);
+    let secsCur = parseInt(currentTime % 60);
+    if (secsCur < 10) {
+        secsCur = "0" + secsCur;
+    }
+    currentTimeSong.innerHTML = minsCur + ":" + secsCur;
 }
+
+
 
 audio.addEventListener('timeupdate', statusBar);
 
@@ -82,38 +96,10 @@ function rewindSong (e) {
     const lineWidt = this.clientWidth;
     const clickPlaceX = e.offsetX;
     const songDuration = audio.duration;
-
+    
     audio.currentTime = (clickPlaceX / lineWidt) * songDuration;
 }
 progressContainer.addEventListener('click', rewindSong);
 
-function getTimeFormat () {
-    let secondsQ = parseInt(timeNum, 10);
-    let hours = Math.floor(secondsQ / 3600);
-    let minutes = Math.floor((secondsQ - (hours * 3600)) / 60);
-    let seconds = secondsQ - (hours * 3600) - (minutes * 60);
-    if (hours < 10) {
-        hours = '0' + hours;
-    }
-    if (minutes < 10) {
-        minutes = '0' + minutes;
-    }
-    if (seconds < 10) {
-        seconds = '0' + seconds;
-    }
-    if (hours == 0) {
-        return minutes + ':' + seconds;
-    } else {
-        return hours + ':' + minutes+ ':' + seconds;
-    }
-}
-audio.addEventListener('timeupdate', function() {
-    let currentTimeplay = getTimeFormat(audio.currentTimeSong);
-    let currentDurationPlay = getTimeFormat(audio.durationSong);
-
-    currentTimeSong.innerHTML = currentTimeplay;
-    durationSong.innerHTML = currentDurationPlay;
-
-});
 
 audio.addEventListener('ended', nextSong);
