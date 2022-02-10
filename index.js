@@ -75,10 +75,6 @@ function statusBar (e) {
     const {duration, currentTime} = e.srcElement;
     const statusPercent = (currentTime / duration) * 100;
     progressLine.style.width = `${statusPercent}%`;
-    const songDur = parseInt(duration);
-    const mins = parseInt(duration / 60);
-    const secs = parseInt(duration % 60);
-    durationSong.innerHTML = mins + ":" + secs;
     const songCurrTime = parseInt(currentTime);
     let minsCur = parseInt(currentTime / 60);
     let secsCur = parseInt(currentTime % 60);
@@ -88,7 +84,17 @@ function statusBar (e) {
     currentTimeSong.innerHTML = minsCur + ":" + secsCur;
 }
 
+function durationTime () {
+    let audioDur = audio.duration;
+    let minutesDur = Math.floor(audioDur / 60);
+    let secondsDur = Math.floor(audioDur % 60);
+    if (secondsDur < 10) {
+        secondsDur = `0${secondsDur}`;
+    }
+    durationSong.innerHTML = `${minutesDur}:${secondsDur}`;
+}
 
+audio.addEventListener('loadeddata', durationTime);
 
 audio.addEventListener('timeupdate', statusBar);
 
